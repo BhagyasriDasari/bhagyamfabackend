@@ -1,23 +1,17 @@
 const express = require('express');
-const { signup, signin, forgotPassword, resetPassword } = require('../controllers/authController');
-const User = require('../models/User'); // Import the User model
-
 const router = express.Router();
+const authController = require('../controllers/authController');
 
-// User signup, signin, forgot password, and reset password routes
-router.post('/signup', signup);
-router.post('/signin', signin);
-router.post('/forgot-password', forgotPassword);
-router.put('/reset-password/:token', resetPassword);
+// Sign-up route
+router.post('/signup', authController.signup);
 
-// Route to get all users
-router.get('/users', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+// Sign-in route
+router.post('/signin', authController.signin);
+
+// Forgot password route
+router.post('/forgot-password', authController.forgotPassword);
+
+// Reset password route
+router.put('/reset-password/:token', authController.resetPassword);
 
 module.exports = router;
